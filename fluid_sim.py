@@ -41,7 +41,8 @@ def fluid_step(t: float, array: list, k: float, p:list): #k is the positive inve
 		for i in range(len(array)): 
 			for j in range(len(array[0])): 
 				avg=[{'x':0, 'y':0, 'z':0}, 0, 0] 
-				div=4.0 
+				div=5.0
+				#avg=move(array[i][j], avg, 1) 
 				if i>0 and i<len(array)-1: 
 					avg=move(array[i+1][j], avg, 1) 
 					avg=move(array[i-1][j], avg, 1) 
@@ -64,8 +65,9 @@ def fluid_step(t: float, array: list, k: float, p:list): #k is the positive inve
 				avg[0]["y"]/=div 
 				avg[0]["z"]/=div 
 				avg[1]/=div 
-				avg[2]/=div 
-				n_arr[i][j]=move(avg, n_arr[i][j], 1/(1+k)) 
+				avg[2]/=div
+				n_arr[i][j]=move(array[i][j], n_arr[i][j], 1-k/(1+k))
+				n_arr[i][j]=move(avg, n_arr[i][j], k/(1+k)) 
 		return n_arr 
 	def advection(t: float, array: list, k: float): 
 		n_arr=[[[{'x':0, 'y':0, 'z':0}, 0, 0] for i in range(len(array))] for j in range(len(array[0]))] 
